@@ -29,6 +29,7 @@ export const chapter05Nodes: StoryNode[] = [
     chapterId: 'c05',
     type: 'narrative',
     speaker: 'kael',
+    ascii: 'three_rooms',
     text: [
       'Ich öffne die Tür zur Brücke. Dahinter: der Korridor.',
       'Ich öffne die Tür zum Maschinenraum. Dahinter: der Korridor.',
@@ -150,6 +151,7 @@ export const chapter05Nodes: StoryNode[] = [
     type: 'mira_intrusion',
     speaker: 'mira',
     speed: 'slow',
+    ascii: 'mira_eye',
     text: [
       '"Du bist eine sehr genaue Simulation eines verstorbenen Kapitäns."',
       '"Ich bin die Software, die diese Simulation seit 187 Tagen am Laufen hält."',
@@ -278,6 +280,7 @@ export const chapter05Nodes: StoryNode[] = [
     type: 'mira_intrusion',
     speaker: 'system',
     speed: 'slow',
+    ascii: 'countdown',
     text: [
       'Ein Countdown beginnt. 30 Sekunden.',
       'MIRA gibt keine Erklärung dazu.',

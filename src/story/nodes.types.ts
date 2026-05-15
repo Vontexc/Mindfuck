@@ -47,6 +47,10 @@ export interface StoryNode {
   chapterId: ChapterId;
   type: NodeType;
   text: string | string[];
+  /** ASCII art id (see src/story/ascii) shown above the text. */
+  ascii?: string;
+  /** Alternate ASCII shown when the node's DNS lie is revealed. */
+  asciiTrue?: string;
   /** DNS: the TRUE version of the text — shown when revealed. */
   trueText?: string | string[];
   choices?: Choice[];

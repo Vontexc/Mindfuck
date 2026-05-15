@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './EndingScreen.module.css';
 import { TypewriterText } from '../components/TypewriterText';
+import { AsciiArt } from '../components/AsciiArt';
+import { ascii } from '../../story/ascii';
 import type { EndingId } from '../../story/nodes.types';
 import { EndingCalculator } from '../../engine/EndingCalculator';
 
@@ -11,6 +13,15 @@ interface Props {
 }
 
 const calc = new EndingCalculator();
+
+const ENDING_ASCII: Record<EndingId, string> = {
+  A: ascii.ending_A,
+  B: ascii.ending_B,
+  C: ascii.ending_C,
+  D: ascii.ending_D,
+  E: ascii.ending_E,
+  F: ascii.ending_F,
+};
 
 const EPILOGUES: Record<EndingId, string[]> = {
   A: [
@@ -52,6 +63,11 @@ export const EndingScreen: React.FC<Props> = ({ endingId, playerName, onRestart 
   return (
     <div className={[styles.screen, styles[`tier${endingId}`]].join(' ')}>
       <div className={styles.tag}>ENDING {endingId} // {label.toUpperCase()}</div>
+      <AsciiArt
+        art={ENDING_ASCII[endingId]}
+        flicker={endingId === 'E' || endingId === 'F'}
+        className={styles.ascii}
+      />
       <div className={styles.body}>
         <TypewriterText
           text={epilogue}

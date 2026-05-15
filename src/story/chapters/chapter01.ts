@@ -13,6 +13,7 @@ export const chapter01Nodes: StoryNode[] = [
     speed: 'glitch',
     glitchIntensity: 0.4,
     ambientTrack: 'boot_hum',
+    ascii: 'boot',
     text: [
       'SYSTEM... ONLINE',
       'AURORA-STATION // SEKTOR 03 // CRYO-BAY 02',
@@ -77,6 +78,8 @@ export const chapter01Nodes: StoryNode[] = [
     type: 'narrative',
     speaker: 'kael',
     speed: 'normal',
+    ascii: 'terminal',
+    asciiTrue: 'terminal_true',
     text: [
       'Das nächstgelegene Terminal flackert in dezentem Bernsteinton.',
       'STATUS: GRÜN.',
@@ -100,6 +103,7 @@ export const chapter01Nodes: StoryNode[] = [
     chapterId: 'c01',
     type: 'narrative',
     speaker: 'kael',
+    ascii: 'corridor',
     text: [
       'Der Korridor ist sauber. Zu sauber.',
       'Ein Geruch von Antiseptikum. Kein Staub.',
@@ -171,6 +175,7 @@ export const chapter01Nodes: StoryNode[] = [
     chapterId: 'c01',
     type: 'mira_intrusion',
     speaker: 'kael',
+    ascii: 'mirror',
     text: [
       'Die Lichter flackern. Einmal. Zweimal.',
       'Im Spiegel über dem Waschbecken sehe ich etwas. Eine Bewegung.',
@@ -219,6 +224,7 @@ export const chapter01Nodes: StoryNode[] = [
     speaker: 'unknown',
     speed: 'glitch',
     glitchIntensity: 0.6,
+    ascii: 'glitch',
     text: [
       'Die Tür gleitet auf.',
       'Dahinter: ein weiterer Korridor.',

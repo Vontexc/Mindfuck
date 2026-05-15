@@ -1,0 +1,28 @@
+.art {
+  font-family: 'VT323', 'Share Tech Mono', 'Courier New', monospace;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: pre;
+  margin: 0 auto 1.5rem auto;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+  text-shadow: 0 0 4px currentColor;
+  user-select: none;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.flicker {
+  animation: flicker 4s steps(2) infinite;
+}
+
+@keyframes flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: 0.85; }
+  98% { opacity: 1; }
+  99% { opacity: 0.7; }
+}

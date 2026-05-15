@@ -87,6 +87,9 @@ export const GameScreen: React.FC<Props> = ({
   const glitch = currentNode.glitchIntensity ?? 0;
   const showEchoLog =
     Boolean(snapshot.flags['echo_log_unlocked']) && currentNode.chapterId === 'c04';
+  const showTrueAscii =
+    Boolean(currentNode.trueText) &&
+    snapshot.currentLies.some((l) => l.nodeId === currentNode.id && l.revealed);
 
   return (
     <div className={styles.screen}>
@@ -94,6 +97,7 @@ export const GameScreen: React.FC<Props> = ({
         node={currentNode}
         displayText={displayText}
         onTextComplete={() => setTextDone(true)}
+        showTrueAscii={showTrueAscii}
       />
 
       {currentNode.choices && (

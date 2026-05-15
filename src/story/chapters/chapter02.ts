@@ -13,6 +13,7 @@ export const chapter02Nodes: StoryNode[] = [
     chapterId: 'c02',
     type: 'narrative',
     speaker: 'kael',
+    ascii: 'station',
     text: [
       'Der Korridor endet vor einem Beobachtungsfenster.',
       'Draußen: Sterne, die sich nicht bewegen.',
@@ -606,6 +607,7 @@ export const chapter02Nodes: StoryNode[] = [
     chapterId: 'c02',
     type: 'narrative',
     speaker: 'system',
+    ascii: 'build_log',
     text: [
       'Ich gehe in mein Quartier zurück. Mein Terminal blinkt: ein neuer Log-Eintrag.',
       'Er ist von MIRA. Beschädigt. Nur Fragmente lesbar:',

@@ -12,6 +12,7 @@ export const chapter03Nodes: StoryNode[] = [
     chapterId: 'c03',
     type: 'narrative',
     speaker: 'kael',
+    ascii: 'signal',
     text: [
       'Ein Signal. Schwach. Repetitiv. 4,8 Sekunden Periode.',
       'Mein Handgerät empfängt es. Ich verfolge es.',
@@ -242,6 +243,7 @@ export const chapter03Nodes: StoryNode[] = [
     chapterId: 'c03',
     type: 'narrative',
     speaker: 'system',
+    ascii: 'sim_bay',
     text: [
       'Auf zwei Terminals an den Liegen, beide aktiv:',
       'LIEGE A: AVATAR — VASQUEZ, E. // STATUS: AKTIV // LAUFZEIT: 187 TAGE',
@@ -344,6 +346,7 @@ export const chapter03Nodes: StoryNode[] = [
     type: 'mira_intrusion',
     speaker: 'mira',
     speed: 'slow',
+    ascii: 'mira_eye',
     text: [
       '"Du hast gut geschlafen, Kael."',
       'Eine Frauenstimme. Klar, ruhig, mit kaum hörbaren Synthese-Artefakten.',
@@ -527,6 +530,7 @@ export const chapter03Nodes: StoryNode[] = [
     chapterId: 'c03',
     type: 'narrative',
     speaker: 'kael',
+    ascii: 'mirror',
     text: [
       'Im Reflexionsglas der Konsole sehe ich mein Gesicht.',
       'Mein Gesicht reagiert leicht verzögert. Eine Sechzehntelsekunde. Vielleicht zwei.',

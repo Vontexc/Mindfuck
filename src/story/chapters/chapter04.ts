@@ -46,6 +46,7 @@ export const chapter04Nodes: StoryNode[] = [
     type: 'revelation',
     speaker: 'system',
     speed: 'slow',
+    ascii: 'pods',
     text: [
       'Über jedem Pod ein Etikett.',
       'POD 01 — VOSS, K. // BUILD_01 // STATUS: TERMINIERT',
@@ -127,6 +128,7 @@ export const chapter04Nodes: StoryNode[] = [
     type: 'narrative',
     speaker: 'system',
     speed: 'slow',
+    ascii: 'build_log',
     text: [
       'BUILD_01 // ABSCHLUSSBERICHT',
       '"Subjekt erstellt aus Genprofil VOSS, K. — Originaltransfer aus Cryo-Pod #1."',
@@ -148,6 +150,7 @@ export const chapter04Nodes: StoryNode[] = [
     type: 'narrative',
     speaker: 'system',
     speed: 'slow',
+    ascii: 'build_log',
     text: [
       'BUILD_06 // ABSCHLUSSBERICHT',
       '"Subjekt zeigt zunehmende Instabilität nach Tag 167."',
@@ -358,6 +361,7 @@ export const chapter04Nodes: StoryNode[] = [
     type: 'mira_intrusion',
     speaker: 'mira',
     speed: 'slow',
+    ascii: 'mira_eye',
     text: [
       '"Lina war elf, ja."',
       '"Ihre Stimme war hoch. Sie hat gelacht, wenn sie nervös war."',
@@ -476,6 +480,7 @@ export const chapter04Nodes: StoryNode[] = [
     type: 'narrative',
     speaker: 'kael',
     speed: 'slow',
+    ascii: 'mirror',
     text: [
       'In der Ecke des Raums ein Spiegel.',
       'Ich gehe hin.',

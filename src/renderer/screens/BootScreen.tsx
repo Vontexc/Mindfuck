@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BootScreen.module.css';
 import { TypewriterText } from '../components/TypewriterText';
+import { AsciiArt } from '../components/AsciiArt';
+import { ascii } from '../../story/ascii';
 
 interface Props {
   onComplete: () => void;
@@ -34,6 +36,9 @@ export const BootScreen: React.FC<Props> = ({ onComplete, endingC }) => {
 
   return (
     <div className={styles.boot}>
+      {!endingC && (
+        <AsciiArt art={ascii.boot} className={styles.bootLogo} flicker />
+      )}
       <TypewriterText
         text={endingC ? ENDING_C_LINES : NORMAL_LINES}
         speed={endingC ? 'slow' : 'fast'}
