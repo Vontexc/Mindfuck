@@ -6,11 +6,54 @@ import { ascii } from '../../story/ascii';
 import type { EndingId } from '../../story/nodes.types';
 import { EndingCalculator } from '../../engine/EndingCalculator';
 
+import type { GameStateSnapshot } from '../../story/nodes.types';
+
 interface Props {
   endingId: EndingId;
   playerName: string;
   onRestart: () => void;
+  snapshot?: GameStateSnapshot | null;
 }
+
+interface FlagLine {
+  flag: string;
+  text: string;
+}
+
+// Optional epilogue lines triggered by collected flags. Each adds one extra
+// line of context to the ending — quietly acknowledging the player's
+// discoveries. Order matters; first hit wins per ending.
+const FLAG_EPILOGUES: Record<EndingId, FlagLine[]> = {
+  A: [
+    { flag: 'wrote_own_log', text: 'BUILD_08 wird deinen Eintrag finden. Wenn sie ihn nicht zuerst löscht.' },
+    { flag: 'read_kael_letters', text: 'Marisols Briefe bleiben in der Schublade. Niemand wird sie wieder öffnen.' },
+    { flag: 'knows_composite', text: 'Die Liste, aus der du bestehst, wird einmal länger.' },
+  ],
+  B: [
+    { flag: 'pod_seven_opened', text: 'BUILD_07 hat zurückgelassen, was BUILD_08 finden wird. Du auch.' },
+    { flag: 'silenced_torres', text: 'Torres hat es so gewollt. Vielleicht.' },
+  ],
+  C: [
+    { flag: 'noticed_pod_warmth', text: 'Auf dem USB-Stick: ein einzelnes Bild. Ein warmer Cryo-Pod.' },
+    { flag: 'tried_to_call_lina', text: 'Du wählst die Nummer noch einmal. Diesmal aus deinem eigenen Telefon.' },
+  ],
+  D: [
+    { flag: 'found_atacama_maps', text: 'Die Atacama wird die Aurora schlucken. Sand zuerst, dann Stille.' },
+    { flag: 'heard_torres_truth', text: 'Torres hat als Letztes geredet. Du warst der Erste, der zugehört hat.' },
+    { flag: 'helped_elena', text: 'Elena lächelte echt, einmal. Das hast du ihr gegeben.' },
+  ],
+  E: [
+    { flag: 'wrote_own_log', text: 'Dein Logbuch-Eintrag wird mit dir geloopt. Wort für Wort. Für immer.' },
+  ],
+  F: [
+    { flag: 'knows_orpheus_origin', text: '1986 wartete jemand auf eine Antwort. Du hast sie geschickt.' },
+  ],
+  G: [
+    { flag: 'recognized_song', text: 'ORPHEUS summt die Tonleiter noch einmal. Dann nicht mehr.' },
+    { flag: 'mira_trusts_kael', text: 'MIRA sagt: "Danke, [NAME]." Das ist das Letzte, was sie sagt.' },
+    { flag: 'read_kael_letters', text: 'Du legst Marisols Briefe in die Schublade zurück. Sauber gefaltet.' },
+  ],
+};
 
 const calc = new EndingCalculator();
 
@@ -60,11 +103,21 @@ const EPILOGUES: Record<EndingId, string[]> = {
   ],
 };
 
-export const EndingScreen: React.FC<Props> = ({ endingId, playerName, onRestart }) => {
+export const EndingScreen: React.FC<Props> = ({
+  endingId,
+  playerName,
+  onRestart,
+  snapshot,
+}) => {
   const label = calc.label(endingId);
-  const epilogue = EPILOGUES[endingId].map((l) =>
-    l.replace('[NAME]', playerName),
-  );
+  const flagLines = (FLAG_EPILOGUES[endingId] ?? [])
+    .filter((line) => snapshot?.flags?.[line.flag])
+    .map((line) => line.text.replace('[NAME]', playerName));
+  const fragmentCount = snapshot?.discoveredFragments.length ?? 0;
+  const epilogue = [
+    ...EPILOGUES[endingId],
+    ...flagLines,
+  ].map((l) => l.replace('[NAME]', playerName));
 
   return (
     <div className={[styles.screen, styles[`tier${endingId}`]].join(' ')}>
@@ -82,6 +135,11 @@ export const EndingScreen: React.FC<Props> = ({ endingId, playerName, onRestart 
           onComplete={() => {/* */}}
         />
       </div>
+      {fragmentCount > 0 && (
+        <div className={styles.stats}>
+          ENTDECKUNGEN: {fragmentCount} / 19
+        </div>
+      )}
       <button className={styles.restart} onClick={onRestart}>
         Neuer Versuch
       </button>

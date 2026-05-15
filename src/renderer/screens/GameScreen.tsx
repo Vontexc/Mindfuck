@@ -6,13 +6,13 @@ import { GlitchLayer } from '../components/GlitchLayer';
 import { MiraOverlay } from '../components/MiraOverlay';
 import { EchoLog } from '../components/EchoLog';
 import { useGameEngine } from '../hooks/useGameEngine';
-import type { EndingId } from '../../story/nodes.types';
+import type { EndingId, GameStateSnapshot } from '../../story/nodes.types';
 
 interface Props {
   playerName: string;
   runNumber: number;
   startEndingC?: boolean;
-  onEnding: (id: EndingId) => void;
+  onEnding: (id: EndingId, snapshot: GameStateSnapshot) => void;
 }
 
 export const GameScreen: React.FC<Props> = ({

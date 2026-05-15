@@ -3,7 +3,7 @@ import { BootScreen } from './screens/BootScreen';
 import { GlitchMenu } from './screens/GlitchMenu';
 import { GameScreen } from './screens/GameScreen';
 import { EndingScreen } from './screens/EndingScreen';
-import type { EndingId } from '../story/nodes.types';
+import type { EndingId, GameStateSnapshot } from '../story/nodes.types';
 
 type Screen = 'boot' | 'menu' | 'game' | 'ending';
 
@@ -12,6 +12,7 @@ export const App: React.FC = () => {
   const [playerName, setPlayerName] = useState<string>('KAPITÄN');
   const [runNumber, setRunNumber] = useState<number>(1);
   const [endingId, setEndingId] = useState<EndingId | null>(null);
+  const [endingSnapshot, setEndingSnapshot] = useState<GameStateSnapshot | null>(null);
   const [endingCFromCold, setEndingCFromCold] = useState(false);
 
   useEffect(() => {
@@ -49,8 +50,9 @@ export const App: React.FC = () => {
           playerName={playerName}
           runNumber={runNumber}
           startEndingC={endingCFromCold}
-          onEnding={(id) => {
+          onEnding={(id, finalSnapshot) => {
             setEndingId(id);
+            setEndingSnapshot(finalSnapshot ?? null);
             setScreen('ending');
           }}
         />
@@ -59,9 +61,11 @@ export const App: React.FC = () => {
         <EndingScreen
           endingId={endingId}
           playerName={playerName}
+          snapshot={endingSnapshot}
           onRestart={() => {
             setRunNumber((n) => n + 1);
             setEndingId(null);
+            setEndingSnapshot(null);
             setScreen('boot');
           }}
         />

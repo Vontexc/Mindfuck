@@ -15,9 +15,9 @@ export class EndingCalculator {
       return 'G';
     }
 
-    // Ending D — Der Mensch — requires the fragments and a low rapport.
+    // Ending D — Der Mensch — requires substantial discovery and low rapport.
     if (
-      state.discoveredFragments.length >= 5 &&
+      state.discoveredFragments.length >= 7 &&
       state.reliabilityScore < 40
     ) {
       return 'D';

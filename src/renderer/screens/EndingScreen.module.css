@@ -32,8 +32,16 @@
   line-height: 1.6;
 }
 
+.stats {
+  margin-top: 2rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  opacity: 0.4;
+}
+
 .restart {
-  margin-top: 4rem;
+  margin-top: 2rem;
   background: transparent;
   border: 1px solid currentColor;
   padding: 0.6rem 1.5rem;

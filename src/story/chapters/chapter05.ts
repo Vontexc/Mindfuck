@@ -332,6 +332,53 @@ export const chapter05Nodes: StoryNode[] = [
       '"Dann frage ich dich jetzt."',
     ],
     miraReaction: 'silent_watch',
+    nextNodeId: 'node_c05_comms_attempt',
+  },
+
+  // ── Optional: Try to reach Lina via comms ────────────────────────────
+  {
+    id: 'node_c05_comms_attempt',
+    chapterId: 'c05',
+    type: 'choice',
+    speaker: 'kael',
+    text: 'Im Korridor: ein Kommunikationsterminal. Tot, aber strom-warm. Versuche ich, Lina zu erreichen?',
+    choices: [
+      {
+        id: 'call_lina',
+        text: 'Ja. Auch wenn nichts ankommt.',
+        nextNodeId: 'node_c05_comms_voicemail',
+        reliabilityDelta: -6,
+      },
+      {
+        id: 'no_call',
+        text: 'Nein. Sie würde mich nicht erkennen.',
+        nextNodeId: 'node_c05_echo_truth',
+        reliabilityDelta: 4,
+      },
+    ],
+  },
+
+  {
+    id: 'node_c05_comms_voicemail',
+    chapterId: 'c05',
+    type: 'revelation',
+    speaker: 'system',
+    speed: 'slow',
+    text: [
+      'Ich tippe Werners alte Frequenz. Das System antwortet nach drei Sekunden.',
+      '"DIESE NACHRICHT WURDE 2026 HINTERLASSEN. KEINE AKTUELLE VERBINDUNG."',
+      'Eine Aufnahme spielt ab.',
+      '"Papa, ich glaube, es geht dir nicht gut. Du hörst dich anders an in deinen Briefen."',
+      '"Mama sagt, das liegt am Stress. Ich glaube, es liegt an etwas anderem."',
+      '"Komm bitte einfach nach Hause. Wir können auch nichts sagen, wenn du nicht willst."',
+      'Die Aufnahme endet. Lina, 9 Jahre alt. Zwei Jahre vor Werners Tod.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, tried_to_call_lina: true, knows_lina_age: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_lina_voicemail'],
+    }),
+    glitchIntensity: 0.2,
+    miraReaction: 'silent_watch',
     nextNodeId: 'node_c05_echo_truth',
   },
 

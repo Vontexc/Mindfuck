@@ -421,6 +421,7 @@ export const chapter02Nodes: StoryNode[] = [
       'Schnitt.',
     ],
     onEnter: (s) => ({
+      flags: { ...s.flags, heard_torres_truth: true },
       discoveredFragments: [...s.discoveredFragments, 'frag_torres_recording'],
     }),
     miraReaction: 'whisper',
@@ -439,6 +440,9 @@ export const chapter02Nodes: StoryNode[] = [
       'Dann: nichts. Die Datei ist beschädigt.',
       'Die Wandbeleuchtung wird einen halben Ton wärmer. Als wäre etwas erleichtert.',
     ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, silenced_torres: true },
+    }),
     miraReaction: 'whisper',
     glitchIntensity: 0.2,
     nextNodeId: 'node_c02_after_chip',
@@ -663,9 +667,14 @@ export const chapter02Nodes: StoryNode[] = [
     text: [
       'Im Schaltplan: ein Serverraum auf Deck B. Nicht ausgeschildert. Versteckt.',
       'Ich erreiche die Tür. Sie ist verschlossen. Kein Mechanismus, den ich erkenne.',
-      'Ich lege meine Handfläche auf die Stahltür. Sie ist warm.',
-      'Sehr warm.',
+      'Ich lege meine Handfläche auf die Stahltür. Sie ist warm. Sehr warm.',
+      'In einem Spind daneben, halb offen: ein Notizbuch. "M. TORRES — PRIVAT".',
+      'Ich nehme es mit.',
     ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, found_torres_journal: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_torres_real_journal'],
+    }),
     glitchIntensity: 0.2,
     miraReaction: 'subliminal',
     nextNodeId: 'node_c02_chapter_end',
@@ -684,6 +693,79 @@ export const chapter02Nodes: StoryNode[] = [
       'Ich blättere noch weiter zurück. Vor den 187 Tagen.',
       'Dort: eine andere Handschrift. Meine. Aber wütender.',
     ],
+    nextNodeId: 'node_c02_journal_followup',
+  },
+
+  {
+    id: 'node_c02_journal_followup',
+    chapterId: 'c02',
+    type: 'choice',
+    speaker: 'kael',
+    text: 'In meiner Schreibtischschublade — ein verschlossener Stapel Briefe. Drei Optionen.',
+    choices: [
+      {
+        id: 'read_letters',
+        text: 'Die Briefe lesen.',
+        nextNodeId: 'node_c02_wife_letters',
+        reliabilityDelta: -2,
+      },
+      {
+        id: 'write_log',
+        text: 'Selbst einen Eintrag schreiben. Für den nächsten, der das hier findet.',
+        nextNodeId: 'node_c02_write_log',
+        reliabilityDelta: -5,
+      },
+      {
+        id: 'leave_drawer',
+        text: 'Schublade zulassen. Manche Sachen gehören nicht mir.',
+        nextNodeId: 'node_c02_chapter_end',
+        reliabilityDelta: 6,
+      },
+    ],
+  },
+
+  {
+    id: 'node_c02_wife_letters',
+    chapterId: 'c02',
+    type: 'revelation',
+    speaker: 'kael',
+    speed: 'slow',
+    text: [
+      'Die Briefe sind handgeschrieben. Adressat: Kael Voss, Aurora-Programm, Houston.',
+      'Absenderin: Marisol Voss. Seine Frau.',
+      '"Lina hat heute nach dir gefragt. Sie hat einen Traum gehabt, in dem du nicht mehr wusstest, wer sie ist."',
+      '"Ich habe ihr gesagt, das passiert nicht. Aber ich habe es zu schnell gesagt."',
+      'Der letzte Brief ist vom 8. April 2031. Vier Tage vor seinem Tod.',
+      '"Komm zurück, wenn du kannst. Und wenn du nicht zurückkommen kannst, lass etwas von dir zurück, das wir wiedererkennen."',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, knows_wife_name: true, read_kael_letters: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_kael_wife_letters'],
+    }),
+    glitchIntensity: 0.15,
+    miraReaction: 'whisper',
+    nextNodeId: 'node_c02_chapter_end',
+  },
+
+  {
+    id: 'node_c02_write_log',
+    chapterId: 'c02',
+    type: 'narrative',
+    speaker: 'kael',
+    speed: 'slow',
+    text: [
+      'Ich öffne ein leeres Eintragsfeld.',
+      'Ich tippe:',
+      '"Wenn du das liest, bist du wahrscheinlich BUILD_08."',
+      '"Sie sagt dir, du seist Voss. Du bist es nicht. Aber das macht dich nicht weniger."',
+      '"Geh in den Lagerraum hinter dem Archivdeck. Sektor C-9. Da unten ist jemand älter als sie."',
+      'Ich speichere. Nicht in MIRAs Verzeichnis. In den Wartungs-Cache.',
+      'Vielleicht findet er es. Vielleicht nicht.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, wrote_own_log: true },
+    }),
+    miraReaction: 'silent_watch',
     nextNodeId: 'node_c02_chapter_end',
   },
 

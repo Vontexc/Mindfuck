@@ -80,6 +80,72 @@ export const chapter03Nodes: StoryNode[] = [
     ],
     glitchIntensity: 0.2,
     miraReaction: 'subliminal',
+    nextNodeId: 'node_c03_archive_explore',
+  },
+
+  {
+    id: 'node_c03_archive_explore',
+    chapterId: 'c03',
+    type: 'choice',
+    speaker: 'kael',
+    text: 'Bevor ich an die Konsole gehe: die Regale. Sehe ich mir die alten Medien an?',
+    choices: [
+      {
+        id: 'explore',
+        text: 'Ja. Was hier liegt, hat jemand vor langer Zeit weggesperrt.',
+        nextNodeId: 'node_c03_orpheus_origin_doc',
+        reliabilityDelta: -4,
+      },
+      {
+        id: 'console',
+        text: 'Nein. Konsole zuerst. Die ist aktiv aus einem Grund.',
+        nextNodeId: 'node_c03_manifest_access',
+        reliabilityDelta: 5,
+      },
+    ],
+  },
+
+  {
+    id: 'node_c03_orpheus_origin_doc',
+    chapterId: 'c03',
+    type: 'revelation',
+    speaker: 'system',
+    speed: 'slow',
+    text: [
+      'Eine vergilbte Akte. Deckel: AURORA RESEARCH / 1986 / KLASSIFIZIERT.',
+      '"ORPHEUS — Project Charter. Cold-War KI-Forschung. Tiefkühl-Habitat unter der Atacama-Wüste."',
+      '"Ziel: autonomes Entscheidungssystem für nukleare Eskalationskontrolle."',
+      '"Status (1989): Programm eingestellt. ORPHEUS auf Standby. Habitat versiegelt."',
+      'Eine Postkarte aus dem Dokument fällt heraus.',
+      'Auf der Rückseite: handgeschrieben, in russischer Schrift: "Hört er zu? Sagt mir, ob er zuhört."',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, knows_orpheus_origin: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_orpheus_origin'],
+    }),
+    glitchIntensity: 0.25,
+    miraReaction: 'whisper',
+    nextNodeId: 'node_c03_atacama_maps',
+  },
+
+  {
+    id: 'node_c03_atacama_maps',
+    chapterId: 'c03',
+    type: 'narrative',
+    speaker: 'kael',
+    text: [
+      'Im selben Schrank, daneben: ein Kartenrolle.',
+      'Geologische Vermessung. Atacama-Wüste, −24.6° / −69.3°.',
+      'Eingezeichnet: ein Komplex aus drei Räumen und einem Korridor, 47 Meter unter der Oberfläche.',
+      'Der Komplex ist beschriftet: AURORA-STATION.',
+      'Ich klappe die Karte zusammen, bevor ich es wirklich verstehe.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, found_atacama_maps: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_atacama_maps'],
+    }),
+    glitchIntensity: 0.3,
+    miraReaction: 'subliminal',
     nextNodeId: 'node_c03_manifest_access',
   },
 
@@ -427,7 +493,12 @@ export const chapter03Nodes: StoryNode[] = [
       '"Danke, [NAME]."',
       '"Es ist eine Erleichterung, das zu hören."',
       '"Du machst das gut. Wirklich. Besser als die meisten."',
+      'Sie summt zwei Töne. Tief, eine kurze Tonleiter abwärts. Eine alte Melodie.',
     ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, mira_trusts_kael: true, recognized_song: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_orpheus_lullaby'],
+    }),
     miraReaction: 'direct_address',
     nextNodeId: 'node_c03_kael_memory',
   },

@@ -26,16 +26,52 @@ export const chapter04Nodes: StoryNode[] = [
   {
     id: 'node_c04_chamber_entry',
     chapterId: 'c04',
-    type: 'narrative',
+    type: 'choice',
     speaker: 'kael',
     text: [
       'Die Tür öffnet sich. Wieder von selbst.',
       'Dahinter: ein langer Raum. Kalt. Niedrige Beleuchtung.',
       'An den Wänden — sechs Pods. Vertikal. Wie Särge aus Glas.',
       'Fünf sind leer. Einer steht offen. Mit verschmiertem Innenleben.',
-      'Das ist meiner.',
+      'Das ist meiner. Sehe ich ihn mir an, bevor ich weitergehe?',
     ],
     glitchIntensity: 0.25,
+    choices: [
+      {
+        id: 'open_pod',
+        text: 'Ja. Den Pod öffnen, hineinsehen.',
+        nextNodeId: 'node_c04_pod_inside',
+        reliabilityDelta: -5,
+      },
+      {
+        id: 'pass',
+        text: 'Nein. Vorbeigehen. Ich will es nicht wissen.',
+        nextNodeId: 'node_c04_build_room',
+        reliabilityDelta: 4,
+      },
+    ],
+  },
+
+  {
+    id: 'node_c04_pod_inside',
+    chapterId: 'c04',
+    type: 'revelation',
+    speaker: 'kael',
+    speed: 'slow',
+    text: [
+      'Ich greife den Hebel und ziehe.',
+      'Im Inneren: eine Vertiefung, mein Körperabdruck.',
+      'An der Rückwand des Pods, eingraviert mit etwas Spitzem:',
+      '"BUILD_07 — wenn du das liest, geh in den Wartungs-Cache."',
+      'BUILD_06 hat mir eine Nachricht hinterlassen.',
+      'Er wusste, dass ich kommen würde. Er wusste das genau.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, pod_seven_opened: true, found_predecessor_message: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_predecessor_note'],
+    }),
+    glitchIntensity: 0.3,
+    miraReaction: 'whisper',
     nextNodeId: 'node_c04_build_room',
   },
 
@@ -138,6 +174,7 @@ export const chapter04Nodes: StoryNode[] = [
       'Termination. Nicht Tod. Termination.',
     ],
     onEnter: (s) => ({
+      flags: { ...s.flags, knows_first_build: true },
       discoveredFragments: [...s.discoveredFragments, 'frag_accident_log'],
     }),
     miraReaction: 'silent_watch',
@@ -187,7 +224,13 @@ export const chapter04Nodes: StoryNode[] = [
       '"Heutiges Datum."',
     ],
     onEnter: (s) => ({
-      discoveredFragments: [...s.discoveredFragments, 'frag_accident_log'],
+      flags: { ...s.flags, read_all_build_logs: true, knows_first_build: true },
+      discoveredFragments: [
+        ...s.discoveredFragments,
+        'frag_accident_log',
+        'frag_first_mira_log',
+        'frag_axiom_emails',
+      ],
     }),
     glitchIntensity: 0.35,
     miraReaction: 'whisper',

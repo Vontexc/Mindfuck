@@ -214,7 +214,35 @@ export const chapter01Nodes: StoryNode[] = [
         nextNodeId: 'node_c01_end',
         reliabilityDelta: 5,
       },
+      {
+        id: 'pod',
+        text: 'Erst zurück zum Cryo-Pod. Ich will sehen, woraus ich gekommen bin.',
+        nextNodeId: 'node_c01_pod_examine',
+        reliabilityDelta: -4,
+      },
     ],
+  },
+
+  {
+    id: 'node_c01_pod_examine',
+    chapterId: 'c01',
+    type: 'narrative',
+    speaker: 'kael',
+    text: [
+      'Ich gehe zurück zum Pod. Er steht offen. Eine Pfütze Kondenswasser daneben.',
+      'Ich lege eine Hand auf das Innenleben.',
+      'Warm. Nicht kalt — warm. Wie ein Bett, das jemand gerade verlassen hat.',
+      'Kein Cryo-Pod, in dem jemand 14 Tage geschlafen hat, ist noch warm.',
+      'An der Innenwand: ein kleines Etikett. "BUILD_07 — INIT 04:12".',
+      'Auf meiner Armbanduhr: 04:31. Neunzehn Minuten alt.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, noticed_pod_warmth: true },
+      discoveredFragments: [...s.discoveredFragments, 'frag_pod_warmth'],
+    }),
+    glitchIntensity: 0.25,
+    miraReaction: 'subliminal',
+    nextNodeId: 'node_c01_end',
   },
 
   {

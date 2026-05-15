@@ -15,7 +15,7 @@ interface UseGameEngineOpts {
   playerName: string;
   runNumber: number;
   startNodeId?: string;
-  onEnding?: (id: EndingId) => void;
+  onEnding?: (id: EndingId, snapshot: GameStateSnapshot) => void;
 }
 
 export function useGameEngine(opts: UseGameEngineOpts) {
@@ -60,7 +60,7 @@ export function useGameEngine(opts: UseGameEngineOpts) {
 
       if (node.type === 'ending_trigger' && node.id === 'node_ending_router') {
         const ending = engine.evaluateEnding();
-        optsRef.current.onEnding?.(ending);
+        optsRef.current.onEnding?.(ending, engine.getState());
       }
     });
 

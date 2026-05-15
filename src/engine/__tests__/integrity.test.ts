@@ -48,14 +48,24 @@ describe('EndingCalculator', () => {
     expect(calc.calculate({ ...baseState, reliabilityScore: 80 })).toBe('A');
   });
 
-  it('returns D for fragments + low reliability', () => {
+  it('returns D for 7+ fragments + low reliability', () => {
     expect(
       calc.calculate({
         ...baseState,
-        discoveredFragments: ['1', '2', '3', '4', '5'],
+        discoveredFragments: ['1', '2', '3', '4', '5', '6', '7'],
         reliabilityScore: 20,
       }),
     ).toBe('D');
+  });
+
+  it('does NOT return D below the fragment threshold', () => {
+    expect(
+      calc.calculate({
+        ...baseState,
+        discoveredFragments: ['1', '2', '3', '4', '5', '6'],
+        reliabilityScore: 20,
+      }),
+    ).toBe('B');
   });
 
   it('returns G when player sided with ORPHEUS and unlocked the truth', () => {
