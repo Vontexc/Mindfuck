@@ -2,7 +2,7 @@
 
 type Listener<T> = (payload: T) => void;
 
-export class EventEmitter<Events extends Record<string, unknown>> {
+export class EventEmitter<Events extends Record<string, any>> {
   private listeners: { [K in keyof Events]?: Set<Listener<Events[K]>> } = {};
 
   on<K extends keyof Events>(event: K, listener: Listener<Events[K]>): () => void {

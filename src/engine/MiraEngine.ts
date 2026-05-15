@@ -115,6 +115,7 @@ export class MiraEngine extends EventEmitter<MiraEvents> {
           );
         }
         break;
+      case 'static_burst':
       case 'takeover':
         this.fireIntrusion('static_burst', '', 1500);
         break;

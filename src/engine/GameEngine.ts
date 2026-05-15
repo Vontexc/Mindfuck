@@ -93,7 +93,10 @@ export class GameEngine extends EventEmitter<EngineEvents> {
   }
 
   getDisplayText(node: StoryNode): string | string[] {
-    return this.deceiver.getDisplayText(node, this.state);
+    const raw = this.deceiver.getDisplayText(node, this.state);
+    const name = this.state.playerName || 'KAPITÄN';
+    const interpolate = (s: string) => s.replace(/\[NAME\]/g, name);
+    return Array.isArray(raw) ? raw.map(interpolate) : interpolate(raw);
   }
 
   /** Restore from a saved snapshot. */
@@ -173,7 +176,10 @@ export class GameEngine extends EventEmitter<EngineEvents> {
     const choice = node.choices.find((c) => c.id === choiceId);
     if (!choice) return;
 
-    this.recordChoice(node, choice, false);
+    // Explicit "..." options are recorded as passive too — semantically
+    // they're the player choosing not to engage. The EndingCalculator
+    // counts both timeouts and these toward the Loop-ending threshold.
+    this.recordChoice(node, choice, Boolean(choice.passive));
     this.applyChoiceEffects(choice);
 
     if (node.onExit) node.onExit(this.state);

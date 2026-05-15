@@ -19,12 +19,17 @@ let greenworks: Greenworks | null = null;
 export async function initSteam(): Promise<void> {
   try {
     // Dynamic import — keeps build healthy when greenworks isn't present.
-    const mod = await import('greenworks').catch(() => null);
+    // We bypass the static type-check because greenworks is optional and
+    // not always available in the dependency tree (CI, web preview).
+    const dynamicImport = new Function('m', 'return import(m)') as (
+      m: string,
+    ) => Promise<unknown>;
+    const mod = await dynamicImport('greenworks').catch(() => null);
     if (!mod) return;
-    const gw = (mod as any).default ?? mod;
+    const gw = ((mod as { default?: Greenworks }).default ?? mod) as Greenworks;
     const ok = gw.init ? gw.init() : gw.initAPI?.();
     if (ok) {
-      greenworks = gw;
+      greenworks = gw as Greenworks;
       console.log('[steam] Greenworks initialized.');
     }
   } catch (err) {

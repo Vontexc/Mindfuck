@@ -18,7 +18,8 @@ export type MiraReactionType =
   | 'whisper'
   | 'mutate_text'
   | 'direct_address'
-  | 'takeover';
+  | 'takeover'
+  | 'static_burst';
 
 export type TextSpeed = 'slow' | 'normal' | 'fast' | 'glitch';
 

@@ -102,9 +102,12 @@ export const GameScreen: React.FC<Props> = ({
 
       {currentNode.choices && (
         <ChoicePanel
-          choices={currentNode.choices.filter((c) =>
-            c.conditions ? c.conditions(snapshot) : true,
-          )}
+          choices={currentNode.choices
+            .filter((c) => (c.conditions ? c.conditions(snapshot) : true))
+            .map((c) => ({
+              ...c,
+              text: c.text.replace(/\[NAME\]/g, playerName),
+            }))}
           visible={textDone}
           onSelect={makeChoice}
         />
