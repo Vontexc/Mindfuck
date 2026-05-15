@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-electron/
+release/
+*.log
+.DS_Store
+.env
+.env.local
+.vite/
+coverage/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo

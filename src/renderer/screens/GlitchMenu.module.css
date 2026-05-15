@@ -1,0 +1,78 @@
+.bg {
+  height: 100vh;
+  width: 100vw;
+  background: #0a0a1f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 3px);
+}
+
+.dialog {
+  background: #d4d0c8;
+  color: #000;
+  width: 480px;
+  font-family: 'Tahoma', 'Sans-Serif';
+  border: 2px outset #ffffff;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+}
+
+.titleBar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close {
+  background: #c0c0c0;
+  border: 1px outset #fff;
+  width: 22px;
+  height: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.body {
+  padding: 1.2rem 1.4rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.code {
+  font-family: 'Courier New', monospace;
+  background: #fff;
+  padding: 4px 8px;
+  border: 1px inset #888;
+  display: inline-block;
+}
+
+.warning {
+  font-size: 0.8rem;
+  color: #800;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem 1.4rem 1.2rem;
+  justify-content: flex-end;
+}
+
+.buttons button {
+  min-width: 80px;
+  padding: 4px 10px;
+  background: #c0c0c0;
+  border: 1px outset #fff;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.buttons button:active {
+  border-style: inset;
+}

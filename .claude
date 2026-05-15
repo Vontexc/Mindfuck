@@ -1,0 +1,29 @@
+# SIGNAL NULL — Claude Code Project Context
+
+## Project Type
+Electron + React + TypeScript Text Adventure Game
+
+## Core Principles
+- Game engine is PURE TypeScript (no React dependencies in /engine)
+- Story content is DATA, not logic — keep story/*.ts as clean data objects
+- MIRA system is event-driven, never blocks main thread
+- All save data must go through saveManager.ts — NEVER direct fs writes
+- Steam API calls only in main process, never renderer
+
+## Architecture Rules
+- IPC pattern: renderer dispatches actions → main handles → returns result
+- GameEngine is a singleton, accessed via useGameEngine hook
+- No inline styles — all styling via CSS Modules
+
+## File naming
+- Components: PascalCase.tsx
+- Hooks: camelCase.ts with 'use' prefix
+- Engine: PascalCase.ts
+- Story nodes: camelCase chapter/ending name
+
+## Current Phase
+Phase 1 — Foundation complete. Engine, MIRA, Chapter 1 implemented.
+Phase 2 — Chapters 2-5 content writing.
+Phase 3 — Ending implementations.
+Phase 4 — Audio, polish, Steam integration with greenworks.
+Phase 5 — QA & ARG infrastructure.

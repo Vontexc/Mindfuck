@@ -1,0 +1,41 @@
+appId: com.signalnull.game
+productName: SIGNAL NULL
+copyright: Copyright © 2026 Signal Null Studio
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist-electron/**/*
+  - dist/**/*
+  - src/assets/**/*
+  - "!**/*.{md,map,ts}"
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  artifactName: SignalNull-Setup-${version}.${ext}
+
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  category: public.app-category.games
+
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  category: Game
+
+# Steam-specific configuration (depot config goes in steamworks)
+extraResources:
+  - from: src/assets
+    to: assets
+    filter: ["**/*"]
+
+publish: null

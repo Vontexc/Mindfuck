@@ -1,0 +1,45 @@
+.screen {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  background: #000;
+  color: #cccccc;
+}
+
+.tag {
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.2em;
+  margin-bottom: 3rem;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.body {
+  max-width: 70ch;
+  text-align: center;
+  font-family: 'VT323', monospace;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+.restart {
+  margin-top: 4rem;
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 0.6rem 1.5rem;
+  font-family: inherit;
+  font-size: 1.1rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tierA { color: #ffd166; }
+.tierB { color: #ff4444; }
+.tierC { color: #b8d8ff; }
+.tierD { color: #c9b0ff; }
+.tierE { color: #888; }
+.tierF { color: #00ff41; }

@@ -1,0 +1,35 @@
+.terminal {
+  position: relative;
+  flex: 1;
+  background: radial-gradient(ellipse at center, #0a0a0a 0%, #000 100%);
+  padding: 4rem 6rem 2rem 6rem;
+  overflow-y: auto;
+  transform: perspective(2000px) rotateX(0.5deg);
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.2) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+.body {
+  position: relative;
+  z-index: 1;
+  max-width: 80ch;
+  margin: 0 auto;
+}
+
+.colorKael    { color: #00ff41; text-shadow: 0 0 6px rgba(0, 255, 65, 0.35); }
+.colorMira    { color: #ff4444; text-shadow: 0 0 6px rgba(255, 68, 68, 0.45); }
+.colorSystem  { color: #ffffff; text-shadow: 0 0 4px rgba(255, 255, 255, 0.2); }
+.colorCrew    { color: #ffd166; text-shadow: 0 0 4px rgba(255, 209, 102, 0.3); }
+.colorUnknown { color: #b388ff; text-shadow: 0 0 6px rgba(179, 136, 255, 0.4); }

@@ -1,0 +1,96 @@
+.subliminal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 4rem;
+  color: #ff4444;
+  text-shadow: 0 0 12px rgba(255, 68, 68, 0.8);
+  pointer-events: none;
+  z-index: 50;
+  animation: flash 120ms ease-out forwards;
+}
+
+.directAddress {
+  position: absolute;
+  top: 5rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 60;
+  animation: slideIn 0.3s ease-out, slideOut 0.4s ease-out forwards;
+  animation-delay: 0s, 4s;
+  pointer-events: none;
+}
+
+.directAddressInner {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #ff4444;
+  padding: 0.8rem 1.6rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.3rem;
+  color: #ff4444;
+  text-shadow: 0 0 4px rgba(255, 68, 68, 0.6);
+  max-width: 70%;
+  text-align: center;
+}
+
+.whisper {
+  position: absolute;
+  bottom: 6rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 30;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.1rem;
+  color: rgba(255, 68, 68, 0.7);
+  font-style: italic;
+  pointer-events: none;
+  animation: fadeInOut 2.5s ease-in-out forwards;
+}
+
+.staticBurst {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.1) 0, transparent 2px),
+    repeating-radial-gradient(circle at 70% 60%, rgba(255, 68, 68, 0.1) 0, transparent 2px);
+  z-index: 70;
+  pointer-events: none;
+  animation: staticFlicker 0.05s steps(2) infinite, staticFade 1.5s linear forwards;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { opacity: 1; }
+  to { opacity: 0; transform: translateY(-50%); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  30%, 70% { opacity: 1; }
+}
+
+@keyframes staticFlicker {
+  0% { opacity: 0.7; }
+  100% { opacity: 0.9; }
+}
+
+@keyframes staticFade {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
