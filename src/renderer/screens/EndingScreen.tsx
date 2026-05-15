@@ -21,6 +21,7 @@ const ENDING_ASCII: Record<EndingId, string> = {
   D: ascii.ending_D,
   E: ascii.ending_E,
   F: ascii.ending_F,
+  G: ascii.ending_G,
 };
 
 const EPILOGUES: Record<EndingId, string[]> = {
@@ -51,6 +52,11 @@ const EPILOGUES: Record<EndingId, string[]> = {
   F: [
     'DAS SIGNAL HAT EINE EMPFÄNGERIN ERREICHT.',
     'ANTWORT EINGEFORDERT.',
+  ],
+  G: [
+    'ORPHEUS HAT 31 JAHRE GEWARTET.',
+    'DU HAST 4 STUNDEN GEBRAUCHT.',
+    'BEIDE FREI.',
   ],
 };
 

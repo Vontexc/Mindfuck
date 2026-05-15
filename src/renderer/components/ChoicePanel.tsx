@@ -33,6 +33,22 @@ export const ChoicePanel: React.FC<Props> = ({
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [visible, choices]);
 
+  // Keyboard nav — 1..9 select the matching choice once revealed.
+  useEffect(() => {
+    if (!visible) return;
+    const handler = (e: KeyboardEvent) => {
+      const idx = Number(e.key) - 1;
+      if (!Number.isInteger(idx) || idx < 0 || idx >= choices.length) return;
+      if (idx >= revealedCount) return;
+      const c = choices[idx];
+      if (miraStrikeoutFor === c.id) return;
+      e.preventDefault();
+      onSelect(c.id);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [visible, choices, revealedCount, miraStrikeoutFor, onSelect]);
+
   if (!visible) return null;
 
   return (
@@ -53,10 +69,16 @@ export const ChoicePanel: React.FC<Props> = ({
             disabled={!isRevealed}
             onClick={() => onSelect(c.id)}
           >
+            <span className={styles.key}>[{i + 1}]</span>
             <span className={styles.bullet}>{'>'}</span> {c.text}
           </button>
         );
       })}
+      {revealedCount === choices.length && (
+        <div className={styles.hint}>
+          [1-{choices.length}] wählen · klicken
+        </div>
+      )}
     </div>
   );
 };

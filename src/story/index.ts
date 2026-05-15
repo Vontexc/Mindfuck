@@ -10,6 +10,7 @@ import { endingCNodes } from './endings/ending_C';
 import { endingDNodes } from './endings/ending_D';
 import { endingENodes } from './endings/ending_E';
 import { endingFNodes } from './endings/ending_F';
+import { endingGNodes } from './endings/ending_G';
 
 export const allStoryNodes: StoryNode[] = [
   ...chapter01Nodes,
@@ -23,7 +24,8 @@ export const allStoryNodes: StoryNode[] = [
   ...endingDNodes,
   ...endingENodes,
   ...endingFNodes,
+  ...endingGNodes,
 ];
 
 export { chapter01Nodes, chapter02Nodes, chapter03Nodes, chapter04Nodes, chapter05Nodes };
-export { endingANodes, endingBNodes, endingCNodes, endingDNodes, endingENodes, endingFNodes };
+export { endingANodes, endingBNodes, endingCNodes, endingDNodes, endingENodes, endingFNodes, endingGNodes };

@@ -9,6 +9,7 @@ import type {
   EndingId,
 } from '../../story/nodes.types';
 import type { Intrusion } from '../../engine/MiraEngine';
+import { debounce } from '../../utils/debounce';
 
 interface UseGameEngineOpts {
   playerName: string;
@@ -20,77 +21,93 @@ interface UseGameEngineOpts {
 export function useGameEngine(opts: UseGameEngineOpts) {
   const engineRef = useRef<GameEngine | null>(null);
   const miraRef = useRef<MiraEngine | null>(null);
+  const optsRef = useRef(opts);
+  optsRef.current = opts;
 
   const [snapshot, setSnapshot] = useState<GameStateSnapshot | null>(null);
   const [currentNode, setCurrentNode] = useState<StoryNode | null>(null);
   const [intrusion, setIntrusion] = useState<Intrusion | null>(null);
 
-  // Init once.
   useEffect(() => {
     const engine = new GameEngine({
-      playerName: opts.playerName,
-      runNumber: opts.runNumber,
+      playerName: optsRef.current.playerName,
+      runNumber: optsRef.current.runNumber,
     });
-    const mira = new MiraEngine(opts.playerName);
+    const mira = new MiraEngine(optsRef.current.playerName);
 
+    // Validate story on construction — surface broken refs in dev console.
     const parser = new StoryParser();
     const { valid, errors } = parser.parse(allStoryNodes);
-    if (errors.length) console.warn('[StoryParser]', errors);
+    if (errors.length && import.meta.env?.DEV) {
+      console.error('[StoryParser] structural errors:', errors);
+    }
     engine.registerNodes(valid);
 
-    engine.on('nodeEnter', (node) => {
+    // Debounced save — coalesce rapid snapshot bursts (typewriter, fragment
+    // additions, MIRA awareness ticks) into a single disk write.
+    const persist = debounce((s: GameStateSnapshot) => {
+      window.signalNull?.saveSave?.(s).catch(() => {/* ignore */});
+    }, 500);
+
+    const offEnter = engine.on('nodeEnter', (node) => {
       setCurrentNode(node);
       mira.setProtected(!!node.protectedFromMira);
       mira.reactToNode(node.miraReaction ?? 'none', engine.getState());
 
-      // Forward countdown trigger to main process for Ending C.
       if (node.countdownActive) {
         window.signalNull?.setCountdownActive(true);
       }
 
       if (node.type === 'ending_trigger' && node.id === 'node_ending_router') {
         const ending = engine.evaluateEnding();
-        opts.onEnding?.(ending);
+        optsRef.current.onEnding?.(ending);
       }
     });
 
-    engine.on('choiceMade', (record) => {
+    const offChoice = engine.on('choiceMade', (record) => {
       mira.analyzeChoice(record, engine.getState());
     });
 
-    engine.on('snapshot', (s) => {
+    const offSnapshot = engine.on('snapshot', (s) => {
       setSnapshot({ ...s });
-      // Persist after each meaningful update.
-      window.signalNull?.saveSave?.(s).catch(() => {/* */});
+      persist(s);
     });
 
-    mira.on('intrusion', (i) => setIntrusion(i));
+    const offIntrusion = mira.on('intrusion', (i) => setIntrusion(i));
 
     engineRef.current = engine;
     miraRef.current = mira;
 
-    // Either restore the save or start fresh.
+    // Boot the engine — either restore the save (matching run number) or
+    // start fresh at the configured start node.
     (async () => {
-      const save = await window.signalNull?.loadSave?.();
-      if (save && save.currentNodeId && save.runNumber === opts.runNumber) {
+      const save = await window.signalNull?.loadSave?.().catch(() => null);
+      if (
+        save &&
+        save.currentNodeId &&
+        save.runNumber === optsRef.current.runNumber
+      ) {
         engine.restore(save);
         engine.enterNode(save.currentNodeId);
-      } else if (opts.startNodeId) {
-        engine.start();
-        if (opts.startNodeId !== 'node_c01_boot') {
-          engine.enterNode(opts.startNodeId);
-        }
-      } else {
-        engine.start();
+        return;
+      }
+      engine.start();
+      const startAt = optsRef.current.startNodeId;
+      if (startAt && startAt !== 'node_c01_boot') {
+        engine.enterNode(startAt);
       }
     })();
 
     return () => {
+      offEnter();
+      offChoice();
+      offSnapshot();
+      offIntrusion();
+      persist.flush();
       engine.clear();
       mira.clear();
     };
-  // We intentionally only init once per mount.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Intentionally init-once per mount; opts are tracked through optsRef.
   }, []);
 
   const api = useMemo(

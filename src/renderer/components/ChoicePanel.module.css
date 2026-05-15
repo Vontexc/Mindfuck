@@ -44,6 +44,22 @@
   color: #00ff41;
 }
 
+.key {
+  display: inline-block;
+  margin-right: 0.5rem;
+  opacity: 0.6;
+  font-size: 0.9em;
+}
+
+.hint {
+  margin-top: 0.6rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  opacity: 0.4;
+  text-align: right;
+  letter-spacing: 0.1em;
+}
+
 .struck {
   text-decoration: line-through;
   text-decoration-color: #ff4444;

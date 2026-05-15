@@ -94,3 +94,23 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* ORPHEUS — different visual identity than MIRA (cyan, slower, calmer). */
+.orpheus.subliminal {
+  color: #5cc8ff;
+  text-shadow: 0 0 16px rgba(92, 200, 255, 0.9);
+}
+
+.orpheus.whisper {
+  color: rgba(92, 200, 255, 0.85);
+}
+
+.orpheus.directAddress {
+  animation-duration: 0.4s, 0.5s;
+}
+
+.orpheusBox {
+  border-color: #5cc8ff;
+  color: #5cc8ff;
+  text-shadow: 0 0 6px rgba(92, 200, 255, 0.7);
+}

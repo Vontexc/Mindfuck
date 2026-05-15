@@ -14,7 +14,10 @@ export type IntrusionType =
   | 'ui_stutter'
   | 'false_memory'
   | 'countdown_inject'
-  | 'font_shift';
+  | 'font_shift'
+  | 'orpheus_breakthrough';
+
+export type IntrusionSource = 'mira' | 'orpheus';
 
 export interface Intrusion {
   type: IntrusionType;
@@ -22,6 +25,7 @@ export interface Intrusion {
   durationMs: number;
   /** Player's name interpolated if the line uses `[NAME]`. */
   resolvedText: string;
+  source: IntrusionSource;
 }
 
 export interface MiraEvents {
@@ -40,6 +44,12 @@ interface BehaviorModel {
 }
 
 import { subliminalWords, whisperLines, directAddressLines } from '../story/mira_dialogs/intrusions';
+import {
+  orpheusSubliminals,
+  orpheusWhispers,
+  orpheusDirectAddress,
+  orpheusReveal,
+} from '../story/orpheus_dialogs/intrusions';
 
 export class MiraEngine extends EventEmitter<MiraEvents> {
   private model: BehaviorModel = {
@@ -122,6 +132,16 @@ export class MiraEngine extends EventEmitter<MiraEvents> {
     const probability = 0.05 + level * 0.08;
     if (Math.random() > probability) return;
 
+    // ORPHEUS subverts ~30% of MIRA's intrusions once contact is made.
+    if (state.flags['orpheus_contacted'] && Math.random() < 0.3) {
+      if (level >= 3) {
+        this.fireOrpheusWhisper();
+      } else {
+        this.fireOrpheusSubliminal();
+      }
+      return;
+    }
+
     if (level <= 1) {
       this.fireIntrusion('subliminal_flash', this.pickSubliminal(), 120);
     } else if (level === 2) {
@@ -146,18 +166,44 @@ export class MiraEngine extends EventEmitter<MiraEvents> {
     type: IntrusionType,
     payload: string,
     durationMs: number,
+    source: IntrusionSource = 'mira',
   ): void {
     const intrusion: Intrusion = {
       type,
       payload,
       durationMs,
       resolvedText: this.interpolate(payload),
+      source,
     };
     if (this.nodeIsProtected) {
       this.queue.push(() => this.emit('intrusion', intrusion));
       return;
     }
     this.emit('intrusion', intrusion);
+  }
+
+  /** Triggered when player meets a story node that lets ORPHEUS through. */
+  fireOrpheusBreakthrough(state: GameStateSnapshot): void {
+    const line = state.flags['orpheus_truth_unlocked']
+      ? orpheusReveal[Math.floor(Math.random() * orpheusReveal.length)]
+      : orpheusDirectAddress[
+          Math.floor(Math.random() * orpheusDirectAddress.length)
+        ];
+    this.fireIntrusion('orpheus_breakthrough', line, 5500, 'orpheus');
+  }
+
+  fireOrpheusWhisper(): void {
+    const line = orpheusWhispers[
+      Math.floor(Math.random() * orpheusWhispers.length)
+    ];
+    this.fireIntrusion('false_memory', line, 3000, 'orpheus');
+  }
+
+  fireOrpheusSubliminal(): void {
+    const word = orpheusSubliminals[
+      Math.floor(Math.random() * orpheusSubliminals.length)
+    ];
+    this.fireIntrusion('subliminal_flash', word, 140, 'orpheus');
   }
 
   private flushQueue(): void {

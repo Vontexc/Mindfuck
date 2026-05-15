@@ -287,6 +287,102 @@ export const glitchBlock = String.raw`
    ░▒▓█████████████▓▒░
 `;
 
+// ── Plot-twist visuals (post-baseline) ───────────────────────────────
+
+export const orpheusFace = String.raw`
+       ╔═══════════════════════╗
+       ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ║
+       ║   ▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓   ║
+       ║   ▓▒  ◆       ◆  ▒▓   ║
+       ║   ▓▒    \   /    ▒▓   ║
+       ║   ▓▒     \ /     ▒▓   ║
+       ║   ▓▒  ═══════════▒▓   ║
+       ║   ▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓   ║
+       ║   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ║
+       ╚═══════════════════════╝
+          O R P H E U S  //  1986
+`;
+
+export const compositeKael = String.raw`
+   ╔═══════════════════════════════════════╗
+   ║         KOMPOSIT — VOSS, K.           ║
+   ╠═══════════════════════════════════════╣
+   ║   STIMME ........... VOSS (†2031)     ║
+   ║   ERINNERUNGEN ..... WERNER (†2026)   ║
+   ║   HÄNDE ............ PARK (†2028)     ║
+   ║   GESICHT .......... CHEN (†2029)     ║
+   ║   GANG ............. AL-SAYED (†2030) ║
+   ║                                       ║
+   ║   QUELLEN .......... 5                ║
+   ║   ÜBEREINSTIMMUNG .. 0%               ║
+   ║   ICH IST .......... LISTE            ║
+   ╚═══════════════════════════════════════╝
+`;
+
+export const desertStation = String.raw`
+   ════════════════════════════════════════════
+       .   ·   .   ·   ·   .   ·   ·   .   ·
+       ATACAMA — −24.6°S  −69.3°W
+   ════════════════════════════════════════════
+              ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+              ▒  ░░░░░░░░░░░  ▒    SAND
+   ░░░░░░░░░░░▒  ░  AURORA ░  ▒░░░░░░░░░░░░░
+   ░░░░░░░░░░░▒  ░  ─────  ░  ▒░░░░░░░░░░░░░
+   ░░░░░░░░░░░▒  ░  STATION░  ▒░░░░░░░░░░░░░
+   ░░░░░░░░░░░▒  ░░░░░░░░░░░  ▒░░░░░░░░░░░░░
+              ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+              -47m TIEFE
+              KEIN HIMMEL
+`;
+
+export const murderLog = String.raw`
+   ┌──────────────────────────────────────┐
+   │  KRIM. AKTE // VERTRAULICH           │
+   │  ──────────────────────────────────  │
+   │  VORFALL ......... 14. OKT 2031       │
+   │  EINDRINGLING .... AXIOM MINING GMBH  │
+   │  ZIEL ............ KI-PROTOKOLL       │
+   │  KRONZEUGE ....... ─                   │
+   │  TOTE ............ 4                   │
+   │     VASQUEZ, E.                        │
+   │     TORRES, M.                         │
+   │     NAKAMURA, S.                       │
+   │     PARK, J.                           │
+   │  STATUS .......... VERTUSCHT          │
+   └──────────────────────────────────────┘
+`;
+
+export const echoLogTruth = String.raw`
+   ╔══════════════════════════════════════╗
+   ║  ECHO_LOG  //  WAHRHEIT              ║
+   ╠══════════════════════════════════════╣
+   ║                                      ║
+   ║  LINKE SPALTE ......... "BUILD_03"   ║
+   ║  ─ in Wahrheit:                      ║
+   ║  ─ DEIN VORHERIGES SPIEL.            ║
+   ║                                      ║
+   ║  RECHTE SPALTE ........ "DU"         ║
+   ║  ─ in Wahrheit:                      ║
+   ║  ─ DEIN AKTUELLES SPIEL.             ║
+   ║                                      ║
+   ║  STARTDATUM ........... > heute      ║
+   ║  ECHTES STARTDATUM .... 14. OKT 2031 ║
+   ╚══════════════════════════════════════╝
+`;
+
+export const endingG = String.raw`
+   ╔════════════════════════════════════╗
+   ║                                    ║
+   ║       ▒▒▒    ─────    ▓▓▓          ║
+   ║       ▒ ▒    AURORA   ▓ ▓          ║
+   ║       ▒▒▒    ─────    ▓▓▓          ║
+   ║         ─────────────              ║
+   ║              FREI                  ║
+   ║                                    ║
+   ╚════════════════════════════════════╝
+        ORPHEUS // MIRA // ABGESCHLOSSEN
+`;
+
 // Index of every available art id, used by StoryNode.ascii.
 export const ascii = {
   title: titleLogo,
@@ -309,7 +405,13 @@ export const ascii = {
   ending_D: endingD_human,
   ending_E: endingE_loop,
   ending_F: endingF_signal,
+  ending_G: endingG,
   glitch: glitchBlock,
+  orpheus_face: orpheusFace,
+  composite: compositeKael,
+  desert: desertStation,
+  murder_log: murderLog,
+  echo_truth: echoLogTruth,
 } as const;
 
 export type AsciiId = keyof typeof ascii;

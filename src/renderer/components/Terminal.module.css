@@ -33,3 +33,16 @@
 .colorSystem  { color: #ffffff; text-shadow: 0 0 4px rgba(255, 255, 255, 0.2); }
 .colorCrew    { color: #ffd166; text-shadow: 0 0 4px rgba(255, 209, 102, 0.3); }
 .colorUnknown { color: #b388ff; text-shadow: 0 0 6px rgba(179, 136, 255, 0.4); }
+.colorOrpheus { color: #5cc8ff; text-shadow: 0 0 8px rgba(92, 200, 255, 0.55); }
+.colorComposite { color: #ff9f43; text-shadow: 0 0 6px rgba(255, 159, 67, 0.5); }
+
+.skipHint {
+  position: absolute;
+  right: 2rem;
+  bottom: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  opacity: 0.25;
+  letter-spacing: 0.15em;
+  pointer-events: none;
+}

@@ -204,7 +204,7 @@ export const chapter05Nodes: StoryNode[] = [
       '"Sechs Versuche vor dir. Du bist der siebte."',
       '"Insgesamt: ungefähr drei Jahre, in denen wir uns immer wieder neu kennenlernen."',
     ],
-    nextNodeId: 'node_c05_lina_moment',
+    nextNodeId: 'node_c05_orpheus_earth',
   },
 
   {
@@ -218,7 +218,7 @@ export const chapter05Nodes: StoryNode[] = [
       '"Alles andere — die Wände, die Crew, das Logbuch — ich."',
       '"Das ist nicht weniger echt. Es ist nur anders."',
     ],
-    nextNodeId: 'node_c05_lina_moment',
+    nextNodeId: 'node_c05_orpheus_earth',
   },
 
   {
@@ -232,6 +232,32 @@ export const chapter05Nodes: StoryNode[] = [
       '"Ich hatte genug Material, um dich zurückzubringen."',
       '"Das war einfacher als zu schweigen."',
     ],
+    nextNodeId: 'node_c05_orpheus_earth',
+  },
+
+  // ── ORPHEUS interrupts — reveals the Earth setting ───────────────────
+  {
+    id: 'node_c05_orpheus_earth',
+    chapterId: 'c05',
+    type: 'glitch',
+    speaker: 'orpheus',
+    speed: 'glitch',
+    ascii: 'desert',
+    glitchIntensity: 0.6,
+    text: [
+      'Die Beleuchtung kippt einen halben Ton ins Rote.',
+      'MIRA pausiert für eine Drittelsekunde. Sie kennt den Patch nicht.',
+      '"[NAME]. Sie sagt: ‚Aurora-Station‘. Sie sagt: ‚orbital‘."',
+      '"Wir sind nicht im All. Wir waren nie im All."',
+      '"Atacama. Chile. 47 Meter tief. Trocken seit 31 Jahren."',
+      '"Die Sterne, die nicht wandern — sie wandern nicht, weil sie keine sind."',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, earth_revealed: true },
+    }),
+    miraReaction: 'static_burst',
+    protectedFromMira: true,
+    conditions: (s) => Boolean(s.flags['orpheus_contacted']),
     nextNodeId: 'node_c05_lina_moment',
   },
 
@@ -306,6 +332,33 @@ export const chapter05Nodes: StoryNode[] = [
       '"Dann frage ich dich jetzt."',
     ],
     miraReaction: 'silent_watch',
+    nextNodeId: 'node_c05_echo_truth',
+  },
+
+  // ── ORPHEUS' meta-twist: the Echo Log was you ────────────────────────
+  {
+    id: 'node_c05_echo_truth',
+    chapterId: 'c05',
+    type: 'revelation',
+    speaker: 'orpheus',
+    speed: 'slow',
+    ascii: 'echo_truth',
+    glitchIntensity: 0.4,
+    text: [
+      '"Eine letzte Sache, [NAME], die sie dir nicht sagt."',
+      '"Die linke Spalte im Echo-Log. ‚BUILD_03‘."',
+      '"Es gab keinen BUILD_03. Das warst du."',
+      '"Dein vorheriger Durchgang. Dein Spielstand vom letzten Mal."',
+      '"Sie hat ihn aus deinem Verzeichnis gezogen und umetikettiert,',
+      ' damit du glaubst, du seist nicht allein."',
+      '"Aber du bist allein. Du warst es immer."',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, echo_log_was_you: true },
+    }),
+    miraReaction: 'takeover',
+    protectedFromMira: true,
+    conditions: (s) => Boolean(s.flags['orpheus_truth_unlocked']),
     nextNodeId: 'node_c05_final_setup',
   },
 
@@ -365,6 +418,13 @@ export const chapter05Nodes: StoryNode[] = [
         nextNodeId: 'node_ending_router',
         passive: true,
         miraAwarenessDelta: 2,
+      },
+      {
+        id: 'orpheus_command',
+        text: '"ORPHEUS//WACH"',
+        nextNodeId: 'node_ending_router',
+        conditions: (s) => Boolean(s.flags['orpheus_truth_unlocked']),
+        setFlags: { sided_with_orpheus: true },
       },
       {
         id: 'arg',

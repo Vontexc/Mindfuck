@@ -25,25 +25,46 @@ export const MiraOverlay: React.FC<Props> = ({ intrusion, onDismiss }) => {
 
   if (!intrusion || !visible) return null;
 
+  const isOrpheus = intrusion.source === 'orpheus';
+
   if (intrusion.type === 'subliminal_flash') {
     return (
-      <div className={styles.subliminal} aria-hidden>
+      <div
+        className={[styles.subliminal, isOrpheus ? styles.orpheus : ''].join(' ')}
+        aria-hidden
+      >
         {intrusion.resolvedText}
       </div>
     );
   }
 
-  if (intrusion.type === 'direct_address') {
+  if (
+    intrusion.type === 'direct_address' ||
+    intrusion.type === 'orpheus_breakthrough'
+  ) {
     return (
-      <div className={styles.directAddress} aria-hidden>
-        <div className={styles.directAddressInner}>{intrusion.resolvedText}</div>
+      <div
+        className={[styles.directAddress, isOrpheus ? styles.orpheus : ''].join(' ')}
+        aria-hidden
+      >
+        <div
+          className={[
+            styles.directAddressInner,
+            isOrpheus ? styles.orpheusBox : '',
+          ].join(' ')}
+        >
+          {intrusion.resolvedText}
+        </div>
       </div>
     );
   }
 
   if (intrusion.type === 'false_memory') {
     return (
-      <div className={styles.whisper} aria-hidden>
+      <div
+        className={[styles.whisper, isOrpheus ? styles.orpheus : ''].join(' ')}
+        aria-hidden
+      >
         {intrusion.resolvedText}
       </div>
     );

@@ -57,6 +57,31 @@ describe('EndingCalculator', () => {
       }),
     ).toBe('D');
   });
+
+  it('returns G when player sided with ORPHEUS and unlocked the truth', () => {
+    expect(
+      calc.calculate({
+        ...baseState,
+        flags: {
+          sided_with_orpheus: true,
+          orpheus_truth_unlocked: true,
+        },
+      }),
+    ).toBe('G');
+  });
+
+  it('window-closed flag still beats ORPHEUS path', () => {
+    expect(
+      calc.calculate({
+        ...baseState,
+        flags: {
+          window_closed_during_countdown: true,
+          sided_with_orpheus: true,
+          orpheus_truth_unlocked: true,
+        },
+      }),
+    ).toBe('C');
+  });
 });
 
 describe('GameEngine basic flow', () => {

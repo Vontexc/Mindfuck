@@ -1,7 +1,7 @@
 // Story node type definitions — the schema all story content adheres to.
 
 export type ChapterId = 'c01' | 'c02' | 'c03' | 'c04' | 'c05' | 'c06_outside';
-export type EndingId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
+export type EndingId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
 
 export type NodeType =
   | 'narrative'
@@ -75,7 +75,7 @@ export interface StoryNode {
   /** Forces an ending when reached. */
   forcesEnding?: EndingId;
   /** Author/POV tag — affects color theme. */
-  speaker?: 'kael' | 'mira' | 'system' | 'crew' | 'unknown';
+  speaker?: 'kael' | 'mira' | 'system' | 'crew' | 'unknown' | 'orpheus' | 'composite';
 }
 
 export interface ChoiceRecord {

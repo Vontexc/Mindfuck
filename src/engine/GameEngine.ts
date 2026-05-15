@@ -103,7 +103,13 @@ export class GameEngine extends EventEmitter<EngineEvents> {
     this.emit('snapshot', this.state);
   }
 
+  /**
+   * Begin the game — enters the initial node id stored in state.
+   * Safe to call once after construction. To resume a save, use
+   * {@link restore} instead.
+   */
   start(): void {
+    if (this.engineState !== 'BOOT') return;
     this.transitionTo('PLAYING');
     this.enterNode(this.state.currentNodeId);
   }
@@ -115,8 +121,13 @@ export class GameEngine extends EventEmitter<EngineEvents> {
       return;
     }
 
+    // Conditional skip: if the node's conditions fail, transparently fall
+    // through to its nextNodeId. This is how branches like the ORPHEUS
+    // pull-asides hide themselves on routes where the player never met him.
     if (node.conditions && !node.conditions(this.state)) {
-      console.warn(`[GameEngine] Node conditions failed: ${nodeId}`);
+      if (node.nextNodeId && node.nextNodeId !== node.id) {
+        this.enterNode(node.nextNodeId);
+      }
       return;
     }
 

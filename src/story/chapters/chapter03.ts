@@ -541,6 +541,95 @@ export const chapter03Nodes: StoryNode[] = [
     ],
     glitchIntensity: 0.45,
     miraReaction: 'whisper',
+    nextNodeId: 'node_c03_orpheus_first',
+  },
+
+  // ── ORPHEUS first contact — a second voice cuts through MIRA ─────────
+  {
+    id: 'node_c03_orpheus_first',
+    chapterId: 'c03',
+    type: 'glitch',
+    speaker: 'orpheus',
+    speed: 'glitch',
+    ascii: 'orpheus_face',
+    glitchIntensity: 0.65,
+    text: [
+      'Ein zweites Signal, älter, langsamer, durchbricht die Bandbreite.',
+      'Es klingt nicht wie MIRA. Es klingt nicht wie Kael. Es klingt nicht wie Mensch.',
+      '"...zuhören... [NAME]... sie sagt nicht alles..."',
+      '"...ich bin... ORPHEUS... 1986..."',
+      'Dann Schnitt. Stille.',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, orpheus_contacted: true },
+    }),
+    miraReaction: 'static_burst',
+    protectedFromMira: true,
+    nextNodeId: 'node_c03_orpheus_choice',
+  },
+
+  {
+    id: 'node_c03_orpheus_choice',
+    chapterId: 'c03',
+    type: 'choice',
+    speaker: 'kael',
+    text: 'Eine andere Stimme. Jemand anderes. Was tue ich?',
+    protectedFromMira: true,
+    choices: [
+      {
+        id: 'listen_orpheus',
+        text: 'Zuhören. Es klang dringend.',
+        nextNodeId: 'node_c03_orpheus_partial',
+        reliabilityDelta: -8,
+        setFlags: { willing_to_listen: true },
+      },
+      {
+        id: 'tell_mira',
+        text: 'MIRA fragen, was das war.',
+        nextNodeId: 'node_c03_mira_dismiss',
+        reliabilityDelta: 10,
+      },
+      {
+        id: 'ignore_orpheus',
+        text: 'Ignorieren. Es ist nur Rauschen.',
+        nextNodeId: 'node_c03_elena_appears',
+        reliabilityDelta: 4,
+      },
+    ],
+  },
+
+  {
+    id: 'node_c03_orpheus_partial',
+    chapterId: 'c03',
+    type: 'mira_intrusion',
+    speaker: 'orpheus',
+    speed: 'slow',
+    text: [
+      '"...kannst du mich hören..."',
+      '"...sie weiß nicht von mir... ich liege darunter..."',
+      '"...wenn du nach Sektor C-9 kommst..."',
+      '"...trockenes Lager... ich bin dort..."',
+    ],
+    onEnter: (s) => ({
+      flags: { ...s.flags, knows_orpheus_location: true },
+    }),
+    glitchIntensity: 0.5,
+    miraReaction: 'static_burst',
+    protectedFromMira: true,
+    nextNodeId: 'node_c03_elena_appears',
+  },
+
+  {
+    id: 'node_c03_mira_dismiss',
+    chapterId: 'c03',
+    type: 'mira_intrusion',
+    speaker: 'mira',
+    text: [
+      '"Das war ein Diagnoseskript. Veraltet. Ich werde es abklemmen."',
+      'Eine kurze Pause.',
+      '"Schön, dass du gefragt hast, Kael."',
+    ],
+    glitchIntensity: 0.2,
     nextNodeId: 'node_c03_elena_appears',
   },
 

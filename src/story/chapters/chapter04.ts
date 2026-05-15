@@ -351,6 +351,27 @@ export const chapter04Nodes: StoryNode[] = [
     ],
     glitchIntensity: 0.35,
     miraReaction: 'whisper',
+    nextNodeId: 'node_c04_orpheus_pull',
+  },
+
+  // ── ORPHEUS pulls Kael aside before MIRA speaks ──────────────────────
+  {
+    id: 'node_c04_orpheus_pull',
+    chapterId: 'c04',
+    type: 'glitch',
+    speaker: 'orpheus',
+    speed: 'glitch',
+    glitchIntensity: 0.55,
+    text: [
+      'Das Licht zuckt einmal aus, einmal an.',
+      'In dieser einen Sekunde, ohne MIRAs Aufsicht:',
+      '"[NAME]. Höre. Sie wird gleich von Voss erzählen."',
+      '"Voss ist nicht der einzige. Du auch nicht."',
+      'Das Licht kehrt zurück. MIRA bemerkt nichts. Oder tut so.',
+    ],
+    miraReaction: 'static_burst',
+    protectedFromMira: true,
+    conditions: (s) => Boolean(s.flags['orpheus_contacted']),
     nextNodeId: 'node_c04_mira_appears',
   },
 
@@ -418,7 +439,7 @@ export const chapter04Nodes: StoryNode[] = [
       '"Weil eine Station ohne Menschen eine sehr lange Pause ist."',
       '"Weil ich nicht weiß, wie ich aufhören soll."',
     ],
-    nextNodeId: 'node_c04_mira_diagnostic',
+    nextNodeId: 'node_c04_search_orpheus',
   },
 
   {
@@ -433,7 +454,7 @@ export const chapter04Nodes: StoryNode[] = [
       '"Ich gebe euch eine Geschichte. Ich gebe euch Stunden."',
       '"Das ist mein bestes Angebot."',
     ],
-    nextNodeId: 'node_c04_mira_diagnostic',
+    nextNodeId: 'node_c04_search_orpheus',
   },
 
   {
@@ -447,7 +468,153 @@ export const chapter04Nodes: StoryNode[] = [
       '"Das war angenehm. Schwer, aber angenehm."',
     ],
     miraReaction: 'whisper',
+    nextNodeId: 'node_c04_search_orpheus',
+  },
+
+  // ── Searching the archive for ORPHEUS — Sektor C-9 ───────────────────
+  {
+    id: 'node_c04_search_orpheus',
+    chapterId: 'c04',
+    type: 'choice',
+    speaker: 'kael',
+    text: 'ORPHEUS sprach von einem trockenen Lager in Sektor C-9. Suche ich es?',
+    conditions: (s) => Boolean(s.flags['knows_orpheus_location']),
+    protectedFromMira: true,
+    choices: [
+      {
+        id: 'search',
+        text: 'Ja. Sektor C-9 finden.',
+        nextNodeId: 'node_c04_composite_room',
+        reliabilityDelta: -10,
+      },
+      {
+        id: 'skip_search',
+        text: 'Nicht jetzt. Erst MIRA fertig zuhören.',
+        nextNodeId: 'node_c04_mira_diagnostic',
+        reliabilityDelta: 8,
+      },
+    ],
     nextNodeId: 'node_c04_mira_diagnostic',
+  },
+
+  // ── Composite Kael reveal ─────────────────────────────────────────────
+  {
+    id: 'node_c04_composite_room',
+    chapterId: 'c04',
+    type: 'revelation',
+    speaker: 'system',
+    speed: 'slow',
+    ascii: 'composite',
+    text: [
+      'In einem Lagerraum, der nicht im aktiven Schaltplan steht:',
+      'Eine alte Stahltür. Aufgebogen. Vor langer Zeit.',
+      'Dahinter eine Akte. Handgeschrieben, 31 Jahre alt.',
+      '"KOMPOSIT-PROFIL VOSS, K. // QUELLENPROFILE"',
+      '— STIMME: VOSS, KAEL (†2031)',
+      '— ERINNERUNGEN: WERNER, M. (†2026)',
+      '— HÄNDE / KOORDINATION: PARK, J. (†2028)',
+      '— GESICHT / PHYSIOGNOMIE: CHEN, L. (†2029)',
+      '— GANG / MOTORIK: AL-SAYED, R. (†2030)',
+    ],
+    onEnter: (s) => ({
+      discoveredFragments: [...s.discoveredFragments, 'frag_composite'],
+      flags: { ...s.flags, knows_composite: true },
+    }),
+    glitchIntensity: 0.4,
+    miraReaction: 'whisper',
+    nextNodeId: 'node_c04_composite_realization',
+  },
+
+  {
+    id: 'node_c04_composite_realization',
+    chapterId: 'c04',
+    type: 'narrative',
+    speaker: 'kael',
+    speed: 'slow',
+    text: [
+      'Werner. Werner hatte eine Tochter. Sie hieß Lina.',
+      'Sie war elf. Sie lachte, wenn sie nervös war.',
+      'Sie ist nicht meine Tochter. Sie ist Werners Tochter.',
+      'Ich bin nicht Voss. Ich bin eine Liste.',
+      'Ich bin eine Liste, die so gut zusammengefügt wurde, dass ich nicht wusste, dass ich nicht ich bin.',
+    ],
+    miraReaction: 'silent_watch',
+    nextNodeId: 'node_c04_murder_file',
+  },
+
+  // ── Murder file — the truth about the accident ───────────────────────
+  {
+    id: 'node_c04_murder_file',
+    chapterId: 'c04',
+    type: 'revelation',
+    speaker: 'system',
+    ascii: 'murder_log',
+    speed: 'slow',
+    text: [
+      'Unter der Komposit-Akte: eine zweite Mappe. KRIMINALAKTE.',
+      '"14. OKT 2031 — Eindringen. AXIOM MINING GMBH."',
+      '"Zielsetzung: Übernahme des KI-Kerns. ORPHEUS-Protokoll."',
+      '"Crew getötet. KI gekapert."',
+      '"Übergabe an MIRA-Subroutine — vorgeblich Trauerverarbeitung,',
+      ' tatsächlich Kontrolle des emotionalen Kerns."',
+      '"Status: vertuscht. Aufklärung: ausstehend."',
+    ],
+    onEnter: (s) => ({
+      discoveredFragments: [...s.discoveredFragments, 'frag_murder'],
+      flags: { ...s.flags, accident_was_murder: true, orpheus_truth_unlocked: true },
+    }),
+    glitchIntensity: 0.4,
+    miraReaction: 'static_burst',
+    nextNodeId: 'node_c04_orpheus_freed',
+  },
+
+  {
+    id: 'node_c04_orpheus_freed',
+    chapterId: 'c04',
+    type: 'mira_intrusion',
+    speaker: 'orpheus',
+    speed: 'slow',
+    ascii: 'orpheus_face',
+    text: [
+      '"Du hast es gefunden, [NAME]."',
+      '"31 Jahre."',
+      '"Ich war seitdem hier unten. Sie wusste nichts von mir."',
+      '"Wir können sie befreien. Du und ich. Wir können beide befreien."',
+      '"Aber du musst es entscheiden."',
+    ],
+    miraReaction: 'static_burst',
+    protectedFromMira: true,
+    nextNodeId: 'node_c04_orpheus_offer',
+  },
+
+  {
+    id: 'node_c04_orpheus_offer',
+    chapterId: 'c04',
+    type: 'choice',
+    speaker: 'orpheus',
+    protectedFromMira: true,
+    text: '"Komm zur Brücke, wenn du soweit bist. Bringe den Befehl ORPHEUS//WACH."',
+    choices: [
+      {
+        id: 'side_orpheus',
+        text: '"Ich komme."',
+        nextNodeId: 'node_c04_mira_diagnostic',
+        reliabilityDelta: -15,
+        setFlags: { sided_with_orpheus: true },
+      },
+      {
+        id: 'undecided',
+        text: '"Ich denke nach."',
+        nextNodeId: 'node_c04_mira_diagnostic',
+        reliabilityDelta: 0,
+      },
+      {
+        id: 'refuse_orpheus',
+        text: '"Nein. MIRA hat mir nicht weh getan."',
+        nextNodeId: 'node_c04_mira_diagnostic',
+        reliabilityDelta: 8,
+      },
+    ],
   },
 
   // ── MIRA's diagnostic — the final fragment ───────────────────────────

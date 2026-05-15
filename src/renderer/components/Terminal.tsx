@@ -19,6 +19,8 @@ const speakerColor: Record<NonNullable<StoryNode['speaker']>, string> = {
   system: styles.colorSystem,
   crew: styles.colorCrew,
   unknown: styles.colorUnknown,
+  orpheus: styles.colorOrpheus,
+  composite: styles.colorComposite,
 };
 
 export const Terminal: React.FC<Props> = ({
@@ -49,6 +51,9 @@ export const Terminal: React.FC<Props> = ({
           canSkip
           onComplete={onTextComplete}
         />
+        <div className={styles.skipHint} aria-hidden>
+          klicken zum überspringen
+        </div>
       </div>
     </div>
   );
